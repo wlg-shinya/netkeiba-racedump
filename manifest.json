@@ -1,0 +1,36 @@
+{
+  "name": "netkeiba-racedump",
+  "version": "0.0.0",
+  "manifest_version": 3,
+  "description": "netkeiba ( https://race.netkeiba.com/ ) の 1 レース分の情報をテキスト出力します",
+  "permissions": ["activeTab", "background", "nativeMessaging", "scripting", "storage", "tabs", "downloads"],
+  "host_permissions": ["https://race.netkeiba.com/*", "https://db.netkeiba.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "32": "images/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": ["content-scripts.js"],
+      "type": "module",
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/icon16.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png"
+  }
+}
