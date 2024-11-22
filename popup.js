@@ -104,6 +104,7 @@ function componentOutputText(parent) {
   const element = document.createElement("pre");
   element.id = OUTPUT_TEXT_ID;
   element.style.fontSize = "6px";
+  element.style.userSelect = "all";
   parent.appendChild(element);
 }
 
