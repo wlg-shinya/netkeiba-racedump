@@ -1,6 +1,6 @@
 {
   "name": "netkeiba-racedump",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "manifest_version": 3,
   "description": "netkeiba ( https://race.netkeiba.com/ ) の 1 レース分の情報をテキスト出力します",
   "permissions": ["scripting", "storage", "tabs"],
