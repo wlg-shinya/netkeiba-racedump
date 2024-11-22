@@ -1,5 +1,6 @@
 const APP_NAME = "netkeiba-racedump";
 const OUTPUT_TEXT_ID = `${APP_NAME}_OutputText`;
+const EXECUTE_BUTTON_ID = `${APP_NAME}_ExecuteButton`;
 const CLIPBOARD_COPY_BUTTON_ID = `${APP_NAME}_ClipboardCopyButton`;
 
 function defaultDownloadedData() {
@@ -16,9 +17,26 @@ function main() {
   componentExecuteButton(card.body);
   componentClipboardCopyButton(card.body);
   componentOutputText(card.body);
-  // componentDownloadButton(card.footer);
 
+  pollingUpdateExecuteButton();
   pollingUpdateOutputText();
+}
+
+function pollingUpdateExecuteButton() {
+  // 全馬情報が取得できるDOM要素の有無で実行ボタンの有効/無効を切り替える
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { type: "existsElementHorseInfoAll" }, (res) => {
+      updateExecuteButton(res);
+    });
+  });
+  // この処理を定期的に繰り返す
+  setTimeout(() => {
+    pollingUpdateExecuteButton();
+  }, 100);
+}
+function updateExecuteButton(enbale) {
+  const element = document.querySelector(`#${EXECUTE_BUTTON_ID}`);
+  element.disabled = !enbale;
 }
 
 function pollingUpdateOutputText() {
@@ -34,7 +52,6 @@ function pollingUpdateOutputText() {
     pollingUpdateOutputText();
   }, 1000);
 }
-
 function updateOutputText() {
   const element = document.querySelector(`#${OUTPUT_TEXT_ID}`);
   if (element && downloadedData.horseInfoAll.length > 0) {
@@ -91,8 +108,10 @@ function componentExecuteButton(parent) {
   div.classList.add("d-flex");
   div.classList.add("justify-content-center");
   const button = document.createElement("button");
+  button.id = EXECUTE_BUTTON_ID;
   button.classList.add("btn");
   button.classList.add("btn-primary");
+  button.disabled = true; // 生成時は無効化
   button.textContent = "このページにある馬の情報をすべて読み込む";
   button.onclick = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
