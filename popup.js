@@ -1,5 +1,6 @@
 const APP_NAME = "netkeiba-racedump";
 const OUTPUT_TEXT_ID = `${APP_NAME}_OutputText`;
+const CLIPBOARD_COPY_BUTTON_ID = `${APP_NAME}_ClipboardCopyButton`;
 
 function defaultDownloadedData() {
   return {
@@ -13,6 +14,7 @@ function main() {
   const card = createCard(true, false);
   componentTitle(card.header);
   componentExecuteButton(card.body);
+  componentClipboardCopyButton(card.body);
   componentOutputText(card.body);
   // componentDownloadButton(card.footer);
 
@@ -41,6 +43,12 @@ function updateOutputText() {
       .map((horseInfo) => horseInfo.pastRaceDataArray.map((x) => x.join("\t").trim()).join("\n"))
       .join("\n\n");
     element.textContent = outputText;
+
+    // 出力文字が何かしらある場合はクリップボードボタンを表示
+    if (element.textContent) {
+      const ccb = document.querySelector(`#${CLIPBOARD_COPY_BUTTON_ID}`);
+      ccb.style.display = "block";
+    }
   }
 }
 
@@ -85,7 +93,6 @@ function componentExecuteButton(parent) {
   const button = document.createElement("button");
   button.classList.add("btn");
   button.classList.add("btn-primary");
-  button.classList.add("m-2");
   button.textContent = "このページにある馬の情報をすべて読み込む";
   button.onclick = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -100,25 +107,28 @@ function componentExecuteButton(parent) {
   parent.appendChild(div);
 }
 
+function componentClipboardCopyButton(parent) {
+  const div = document.createElement("div");
+  div.classList.add("d-flex");
+  div.classList.add("justify-content-center");
+  const button = document.createElement("button");
+  div.appendChild(button);
+  button.id = CLIPBOARD_COPY_BUTTON_ID;
+  button.classList.add("btn");
+  button.classList.add("btn-outline-primary");
+  button.style.display = "none"; // 生成時は非表示
+  button.textContent = "出力結果をクリップボードにコピー";
+  button.onclick = () => {
+    const outputText = document.querySelector(`#${OUTPUT_TEXT_ID}`);
+    navigator.clipboard.writeText(outputText.textContent);
+  };
+  parent.appendChild(div);
+}
+
 function componentOutputText(parent) {
   const element = document.createElement("pre");
   element.id = OUTPUT_TEXT_ID;
   element.style.fontSize = "6px";
   element.style.userSelect = "all";
   parent.appendChild(element);
-}
-
-function componentDownloadButton(parent) {
-  const div = document.createElement("div");
-  div.classList.add("d-flex");
-  div.classList.add("justify-content-center");
-  const button = document.createElement("button");
-  div.appendChild(button);
-  button.classList.add("btn");
-  button.classList.add("btn-primary");
-  button.classList.add("col-4");
-  button.classList.add("m-2");
-  button.onclick = donwload;
-  button.textContent = "ダウンロード";
-  parent.appendChild(div);
 }
