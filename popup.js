@@ -41,7 +41,8 @@ function updateOutputText() {
       .sort((a, b) => (a.num < b.num ? -1 : 1))
       .map((horseInfo) => horseInfo.pastRaceDataArray.map((x) => x.join("\t").trim()).join("\n"))
       .join("\n\n");
-    element.value = outputText;
+    console.log(outputText);
+    element.textContent = outputText;
   }
 }
 
@@ -102,10 +103,10 @@ function componentExecuteButton(parent) {
 }
 
 function componentOutputText(parent) {
-  const input = document.createElement("textarea");
-  input.id = OUTPUT_TEXT_ID;
-  input.classList.add("form-control");
-  parent.appendChild(input);
+  const element = document.createElement("pre");
+  element.id = OUTPUT_TEXT_ID;
+  element.style.fontSize = "6px";
+  parent.appendChild(element);
 }
 
 function componentDownloadButton(parent) {
