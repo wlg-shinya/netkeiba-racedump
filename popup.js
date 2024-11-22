@@ -1,5 +1,4 @@
-export const APP_NAME = "netkeiba-racedump";
-
+const APP_NAME = "netkeiba-racedump";
 const OUTPUT_TEXT_ID = `${APP_NAME}_OutputText`;
 
 function defaultDownloadedData() {
@@ -41,7 +40,6 @@ function updateOutputText() {
       .sort((a, b) => (a.num < b.num ? -1 : 1))
       .map((horseInfo) => horseInfo.pastRaceDataArray.map((x) => x.join("\t").trim()).join("\n"))
       .join("\n\n");
-    console.log(outputText);
     element.textContent = outputText;
   }
 }
