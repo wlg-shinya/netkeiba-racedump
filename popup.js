@@ -1,4 +1,4 @@
-import { APP_NAME } from "./global-settings.js";
+export const APP_NAME = "netkeiba-racedump";
 
 const OUTPUT_TEXT_ID = `${APP_NAME}_OutputText`;
 
