@@ -25,7 +25,7 @@ function main() {
 function pollingUpdateExecuteButton() {
   // 全馬情報が取得できるDOM要素の有無で実行ボタンの有効/無効を切り替える
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { type: "existsElementHorseInfoChuohShutuba" }, (res) => {
+    chrome.tabs.sendMessage(tabs[0].id, { type: "existsElementHorseInfoAll" }, (res) => {
       updateExecuteButton(res);
     });
   });
@@ -119,7 +119,7 @@ function componentExecuteButton(parent) {
       downloadedData = defaultDownloadedData();
 
       // 全馬情報の読み込みをbackgroundに要求
-      chrome.tabs.sendMessage(tabs[0].id, { type: "executeLoadHorseInfoChuohShutuba" });
+      chrome.tabs.sendMessage(tabs[0].id, { type: "executeLoadHorseInfoAll" });
     });
   };
   div.appendChild(button);
