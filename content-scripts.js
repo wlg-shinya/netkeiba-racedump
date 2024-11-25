@@ -1,18 +1,18 @@
-const HORSE_INFO_ALL_TBODY_QUERY_PATH = "#All_Result_Table > tbody";
+const CHUOH_SHUTUBA_TBODY_QUERY_PATH = "#page > div.RaceColumn02 > div.RaceTableArea > table > tbody";
 
 // 全馬情報を読み込める状態か？
-function existsElementHorseInfoAll() {
-  return document.querySelector(HORSE_INFO_ALL_TBODY_QUERY_PATH) !== null;
+function existsElementHorseInfoChuohShutuba() {
+  return document.querySelector(CHUOH_SHUTUBA_TBODY_QUERY_PATH) !== null;
 }
 
 // 全馬情報読み込みを実行する
-function executeLoadHorseInfoAll() {
-  // 「結果・払戻」タブにあるレース結果テーブルの要素を特定
-  const tbody = document.querySelector(HORSE_INFO_ALL_TBODY_QUERY_PATH);
+function executeLoadHorseInfoChuohShutuba() {
+  // 「レース」カテゴリ以下のレースページにある「出馬表」タブにあるレース結果テーブルの要素を特定
+  const tbody = document.querySelector(CHUOH_SHUTUBA_TBODY_QUERY_PATH);
 
   // 各馬情報ページを読み込むためのパラメータを用意
   const loadHorseInfoParams = Array.from(tbody.rows).map((x) => {
-    return { num: Number(x.querySelector(".Num.Txt_C > div").innerText), url: x.querySelector(".Horse_Info > span.Horse_Name > a").href };
+    return { num: Number(x.querySelector("td[class*='Umaban']").innerText), url: x.querySelector(".HorseInfo > div > div > span > a").href };
   });
 
   // 各馬情報ページリンク一覧を送信して情報を読み込む
@@ -23,11 +23,11 @@ function executeLoadHorseInfoAll() {
 // メッセージごとの振る舞い
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
-    case "existsElementHorseInfoAll":
-      sendResponse(existsElementHorseInfoAll());
+    case "existsElementHorseInfoChuohShutuba":
+      sendResponse(existsElementHorseInfoChuohShutuba());
       break;
-    case "executeLoadHorseInfoAll":
-      executeLoadHorseInfoAll();
+    case "executeLoadHorseInfoChuohShutuba":
+      executeLoadHorseInfoChuohShutuba();
       break;
     default:
       throw new Error(`Unknown type '${request.type}'`);
