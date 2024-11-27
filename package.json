@@ -1,10 +1,12 @@
 {
+  "name": "netkeiba-racedump",
   "devDependencies": {
     "@types/chrome": "^0.0.287",
     "typescript": "^5.7.2",
     "vite": "^6.0.0"
   },
   "scripts": {
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "package": "cp -r ./dist ./$npm_package_name && zip ./$npm_package_name.zip ./$npm_package_name && rm -rf ./$npm_package_name"
   }
 }
