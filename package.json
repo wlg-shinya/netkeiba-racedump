@@ -1,18 +1,10 @@
 {
-  "name": "netkeiba-racedump",
-  "version": "1.0.0",
-  "description": "- これは Chrome 拡張機能です - [netkeiba](https://race.netkeiba.com/) の 1 レース分の情報をテキスト出力します - Chrome バージョン 130 で動作確認をしています",
-  "main": "background.js",
   "devDependencies": {
     "@types/chrome": "^0.0.287",
     "typescript": "^5.7.2",
     "vite": "^6.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && vite build"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
